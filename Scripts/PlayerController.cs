@@ -62,12 +62,6 @@ public class PlayerController : MonoBehaviour
             }
             else Debug.Log("paused, can't shoot");
         }
-
-        if (pauseMenu.GetComponent<PauseMenu>().paused)
-        {
-            // CalibrateAccelerometer();
-        }
-
     }
 
     private void FixedUpdate()
