@@ -10,12 +10,14 @@ public class PauseMenu : MonoBehaviour
 
     public GameObject pauseMenuUI;
     public GameObject gameController;
+    public PlayerController playerController;
 
     void Start()
     {
         pauseMenuUI.SetActive(false);
         paused = false;
 
+        playerController.CalibrateAccelerometer();
     }
 
     // Update is called once per frame
@@ -33,8 +35,7 @@ public class PauseMenu : MonoBehaviour
                 {
                     Pause();
                 }
-            } else Debug.Log("healthy true, impossible to pause game");
-
+            }
         }
     }
     public void Resume()
@@ -45,7 +46,10 @@ public class PauseMenu : MonoBehaviour
 
         paused = false;
         Debug.Log("can shoot");
+
+        playerController.CalibrateAccelerometer();
     }
+
     void Pause()
     {
         pauseMenuUI.SetActive(true);
@@ -53,17 +57,19 @@ public class PauseMenu : MonoBehaviour
         GameIsPaused = true;
 
         paused = true;
-        Debug.Log("cant shoot");
+        Debug.Log("can't shoot");
     }
+
     public void LoadMenu()
     {
         Debug.Log("Loading menu");
         Time.timeScale = 1f;
         SceneManager.LoadScene("menu");
     }
+
     public void QuitGame()
     {
-        Debug.Log("Quitting game");
+        Debug.Log("Quitting the game");
         Application.Quit();
     }
 }
