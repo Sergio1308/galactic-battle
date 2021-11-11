@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/* Class EnemyManeuverController, implements 
+ * a system of maneuvering objects-enemy spaceships
+ * with a random shift in a random direction.
+ */
 public class EnemyManeuverController : MonoBehaviour
 {
     public Vector2 startWait;
@@ -25,7 +29,7 @@ public class EnemyManeuverController : MonoBehaviour
 
     IEnumerator Evade() // coroutine func
     {
-        yield return new WaitForSeconds(Random.Range(startWait.x, startWait.y)); // pause
+        yield return new WaitForSeconds(Random.Range(startWait.x, startWait.y));  // pause
 
         while (true)
         {
@@ -40,9 +44,11 @@ public class EnemyManeuverController : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        float newManeuver = Mathf.MoveTowards(GetComponent<Rigidbody>().velocity.x ,targetManeuver, maneuverSpeed * Time.deltaTime);
+        float newManeuver = Mathf.MoveTowards(GetComponent<Rigidbody>().velocity.x,
+                                              targetManeuver, 
+                                              maneuverSpeed * Time.deltaTime);
 
-        GetComponent<Rigidbody>().velocity = new Vector3(newManeuver, 0.0f, currentSpeed); // движение корабля
+        GetComponent<Rigidbody>().velocity = new Vector3(newManeuver, 0.0f, currentSpeed);  // ship movement
 
         GetComponent<Rigidbody>().position = new Vector3
             (
