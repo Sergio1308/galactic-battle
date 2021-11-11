@@ -25,7 +25,7 @@ public class PlayerController : MonoBehaviour
     public float nextFire = 0.0f;   // firing delay between bullets
 
     public Quaternion calibrationQuaternion;
-    private Vector3 movement;
+    public TouchControl touchControl;
 
     void Start()
     {
@@ -66,22 +66,27 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        float moveHorizontal = Input.GetAxis("Horizontal");
-        float moveVertical = Input.GetAxis("Vertical");
+        // TODO: add switcher keyboard control to run app in Unity
 
-        Vector3 accelerationRaw = Input.acceleration;
-        Vector3 acceleration = FixedAcceleraton(accelerationRaw);
+        // float moveHorizontal = Input.GetAxis("Horizontal");
+        // float moveVertical = Input.GetAxis("Vertical");
+        // Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
 
-        if (!AndroidRemoteControl)  // the ability to change control for debugging
+        if (!AndroidRemoteControl)  // TODO: the ability to change control
         {
             // switched to keyboard control
 
-            Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
+            Vector2 direction = touchControl.GetDirection();
+
+            Vector3 movement = new Vector3(direction.x, 0.0f, direction.y);
             rigidbody.velocity = movement * speed;
         }
         else
         {
-            // switched to android control
+            // switched to accelerometer android control
+
+            Vector3 accelerationRaw = Input.acceleration;
+            Vector3 acceleration = FixedAcceleraton(accelerationRaw);
 
             Vector3 movement = new Vector3(acceleration.x, 0.0f, acceleration.y);
             rigidbody.velocity = movement * speed;
@@ -95,7 +100,8 @@ public class PlayerController : MonoBehaviour
                 Mathf.Clamp(rigidbody.position.z, boundary.zMin, boundary.zMax)
             );
 
-        rigidbody.rotation = Quaternion.Euler(0.0f, 0.0f, rigidbody.velocity.x * -tilt);  // tilt the player object when it moves
+        // tilt the player object when it moves
+        rigidbody.rotation = Quaternion.Euler(0.0f, 0.0f, rigidbody.velocity.x * -tilt); 
 
     }
 }
