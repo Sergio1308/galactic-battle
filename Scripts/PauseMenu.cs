@@ -16,8 +16,6 @@ public class PauseMenu : MonoBehaviour
     {
         pauseMenuUI.SetActive(false);
         paused = false;
-
-        playerController.CalibrateAccelerometer();
     }
 
     // Update is called once per frame
