@@ -3,8 +3,6 @@
 
 The game was created for educational and entertainment purposes to get practice.
 
-<img src="https://gfycat.com/ancienteuphoricanura.gif" width="400">
-
 Mastered and done:
 
 * Possibilities of the development environment "Unity" and how to use it to create cross-platform games
@@ -28,7 +26,7 @@ Spawn of obstacles on the playing area is presented in the form of waves.
 
 With each new wave, the number of asteroids increases, and the spawn rate decreases (it means that more obstacles will spawn).
 
-<...>
+Here we have two GUI elements (left and right upper corner of the screen). The left element, which is represented as a circle with a number, displays how many asteroids will appear on the playing area (I remind that this number increases by 5 each wave). The right one, which is represented as a rectangle, shows the current number of points earned by the player (Destroy as many obstacles on your way as possible). More details about the scoring system are written [in the project code structure](#project-structure)).
 
 <img src="https://i.imgur.com/JJXGDBD.png" width="400">
 
@@ -44,11 +42,29 @@ The player only has one life. If the player collides with an asteroid, an enemy 
 
 ### Control mechanics 
 
-<...>
+Firstly, you can get acquainted with the controls and basic mechanics of the game right in the game menu (by clicking on the "How to play" button, which flashes in different colors). This is how the main menu looks like:
 
-<img src="" width="400">
+<img src="https://i.imgur.com/gCWonPz.png" height="500">
 
+Also, you can see it [here](https://i.imgur.com/m6s0BRW.png).
+
+Since the game was created for Android OS, there are two ways to control the player game object (spaceship): touch control and accelerometer control.
+
+Touch control is implemented in the form of two areas on the screen, each of which is responsible for performing different functions. The screenshot below shows these two areas in semi-transparent white colors (it is not visible in the game).
+
+<img src="https://i.imgur.com/4fJrvg9.png" width="400">
+
+The left area is the touch movement area. To control the spaceship, you need to drag on this area. The right one is touch shooting area, just tap on this to take a shot. But these areas are active only if accelerometer control is disables in options menu! More details about control implementation are described [in the project code structure](#spaceship-control)).
+
+In order to set the movement of the spaceship in a certain direction, data from the accelerometer are used. To use accelerometer control, the player needs to switch the toggle in the settings menu:
+
+<img src="https://i.imgur.com/LEtWKzp.png" width="400">
 
 # Project structure
 
+#project-structure
+<...>
+
+Implementation of the spaceship control system
+#spaceship-control
 <...>
