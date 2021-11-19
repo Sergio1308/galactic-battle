@@ -54,7 +54,7 @@ Touch control is implemented in the form of two areas on the screen, each of whi
 
 <img src="https://i.imgur.com/4fJrvg9.png" width="400">
 
-The left area is the touch movement area. To control the spaceship, you need to drag on this area. The right one is touch shooting area, just tap on this to take a shot. But these areas are active only if accelerometer control is disables in options menu! More details about control implementation are described [in the project code structure](#spaceship-control)).
+The left area is the touch movement area. To control the spaceship, you need to drag on this area. The right one is touch shooting area, just tap on this to take a shot. But these areas are active only if accelerometer control is disables in options menu! More details about control implementation are described [in the project code structure](#implementation-of-the-spaceship-control-system)).
 
 In order to set the movement of the spaceship in a certain direction, data from the accelerometer are used. To use accelerometer control, the player needs to switch the toggle in the settings menu:
 
@@ -78,4 +78,81 @@ The "increment" variable is used as an argument to the function. When calling th
 
 ### Implementation of the spaceship control system
 #### Touch Control
-<...>
+Here we have the class "TouchMovementControl", which implements the logic of touch control. With the touch control, you can control the object of the player spaceship, pointing your finger across the device screen its motion vector. In the method "Awake()" we we set the direction value to zero. Awake() is called to initialize variables or states before the application start.
+```
+private void Awake()
+    {
+        direction = Vector2.zero;
+        touched = false;
+    }
+```
+Then methods for handling events are implemented: 
+
+OnPointerDown() is called when user taps on the screen and takes an PointerEventData object as an argument.
+```
+public void OnPointerDown(PointerEventData eventData)
+    {
+        if (!touched)
+        {
+            origin = eventData.position;
+            touched = true;
+            pointerID = eventData.pointerId;  // get status and click number
+        }
+    }
+```
+OnDrag() is called to handle finger movement across the screen and takes an PointerEventData object as an argument.
+```
+    public void OnDrag(PointerEventData eventData)
+    {
+        if (eventData.pointerId == pointerID)  // check if it is the same touch
+        {
+            Vector2 currentPosition = eventData.position;
+            Vector2 directionResult = currentPosition - origin;
+            direction = directionResult.normalized;
+        }
+    }
+```
+OnPointerUp() is called when user's touch was released.
+```
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        if (eventData.pointerId == pointerID)
+        {
+            direction = Vector2.zero;  // stop moving
+        }
+    }
+```
+And finally, Method GetDirection() returns a position of the moved object. Here we use MoveTowards method, that moves a point current towards target. By updating an object’s position each frame using the position calculated by this function, you can move it towards the target smoothly.
+```
+    public Vector2 GetDirection()
+    {
+        smoothDirection = Vector2.MoveTowards(smoothDirection, direction, smoothness);
+        return smoothDirection;
+    }
+```
+We call this function in "PlayerController" class:
+```
+    Vector2 direction = touchControl.GetDirection();
+
+    Vector3 movement = new Vector3(direction.x, 0.0f, direction.y);
+    rigidbody.velocity = movement * speed;
+```
+
+#### Accelerometer Control
+First of all, you need to calibrate the accelerometer:
+```
+    public void CalibrateAccelerometer()
+    {
+        Vector3 accelerationSnapshot = Input.acceleration;
+        Quaternion rotateQuaternion = Quaternion.FromToRotation(new Vector3(0.0f, 0.0f, -1.0f), accelerationSnapshot);
+        calibrationQuaternion = Quaternion.Inverse(rotateQuaternion);
+    }
+```
+Then in the method "FixedUpdate" we get the data for Vector3, taken from the accelerometer and using the velocity component and the speed variable, we set the spaceship in movement:
+```
+    Vector3 accelerationRaw = Input.acceleration;
+    Vector3 acceleration = FixedAcceleraton(accelerationRaw);
+
+    Vector3 movement = new Vector3(acceleration.x, 0.0f, acceleration.y);
+    rigidbody.velocity = movement * speed;
+```
