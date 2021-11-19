@@ -3,6 +3,8 @@
 
 The game was created for educational and entertainment purposes to get practice.
 
+<img src="https://gfycat.com/ancienteuphoricanura.gif" width="400">
+
 Mastered and done:
 
 * Possibilities of the development environment "Unity" and how to use it to create cross-platform games
@@ -39,3 +41,14 @@ So far, enemy spaceships are classified by color and they are no different from 
 The player only has one life. If the player collides with an asteroid, an enemy spaceship or the player is shot by its bullet, the game will be over.
 
 <img src="https://i.imgur.com/KGoljUQ.png" height="500">
+
+### Control mechanics 
+
+<...>
+
+<img src="" width="400">
+
+
+# Project structure
+
+<...>
